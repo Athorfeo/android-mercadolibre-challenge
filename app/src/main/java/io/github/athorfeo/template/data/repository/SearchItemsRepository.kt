@@ -43,7 +43,7 @@ class SearchItemsRepository @Inject constructor(
             }
     }
 
-    fun getItemInCache(itemId: String): Flow<Result<ItemSearchItems>> {
+    fun getItem(itemId: String): Flow<Result<ItemSearchItems>> {
         return localItemsSearchesDataSource
             .getSearchedItems()
             .map { resource ->

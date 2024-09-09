@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -25,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -46,6 +48,7 @@ import io.github.athorfeo.template.navigation.Screen
 import io.github.athorfeo.template.ui.component.ErrorAlertDialog
 import io.github.athorfeo.template.ui.component.Loading
 import io.github.athorfeo.template.ui.theme.ApplicationTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun ResultSearchRoute(
@@ -74,8 +77,8 @@ fun ResultSearchScreen(
     uiLogicState: UiLogicState,
     itemsPagingState: SearchedItemsPaging,
     onDismissErrorDialog: () -> Unit,
-    onBackPaging: () -> Unit,
-    onNextPaging: () -> Unit,
+    onBackPaging: (() -> Unit) -> Unit,
+    onNextPaging: (() -> Unit) -> Unit,
     onGoDetail: (String) -> Unit
 ) {
     if (uiLogicState.isLoading) {
@@ -91,7 +94,10 @@ fun ResultSearchScreen(
         }
 
         val searchedItems = itemsPagingState.items
-        LazyColumn {
+        val coroutineScope = rememberCoroutineScope()
+        val listState = rememberLazyListState()
+
+        LazyColumn(state = listState) {
             if (searchedItems.isEmpty()) {
                 item {
                     CaptionResultSearchScreen(stringResource(R.string.no_items_found))
@@ -118,8 +124,12 @@ fun ResultSearchScreen(
                     PagingItemResultSearchScreen(
                         itemsPagingState.total,
                         itemsPagingState.offset,
-                        onBackPaging,
-                        onNextPaging
+                        { onBackPaging {
+                            coroutineScope.launch { listState.animateScrollToItem(index = 0) }
+                        }},
+                        { onNextPaging {
+                            coroutineScope.launch { listState.animateScrollToItem(index = 0) }
+                        }}
                     )
                 }
             }

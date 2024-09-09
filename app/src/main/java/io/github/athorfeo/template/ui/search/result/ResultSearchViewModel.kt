@@ -45,20 +45,20 @@ class ResultSearchViewModel @Inject constructor(
         _uiLogicState.update { it.copy(isLoading = false, exception = null) }
     }
 
-    fun onBackPaging() {
+    fun onBackPaging(onSuccess: () -> Unit) {
         val offset = calculateOffsetPaging.backPaging(itemsPagingState.value.offset)
-        searchItems(offset)
+        searchItems(offset, onSuccess)
     }
 
-    fun onNextPaging() {
+    fun onNextPaging(onSuccess: () -> Unit) {
         val offset = calculateOffsetPaging.nextPaging(
             itemsPagingState.value.offset,
             itemsPagingState.value.total
         )
-        searchItems(offset)
+        searchItems(offset, onSuccess)
     }
 
-    fun searchItems(offset: Int) {
+    fun searchItems(offset: Int, onSuccess: () -> Unit) {
         viewModelScope.launch {
             searchItemsRepository.searchItems(query, offset).collect { result ->
                 when(result) {
@@ -71,6 +71,7 @@ class ResultSearchViewModel @Inject constructor(
                     }
                     is Result.Success -> {
                         _uiLogicState.update { it.copy(isLoading = false, exception = null) }
+                        onSuccess()
                     }
                 }
             }

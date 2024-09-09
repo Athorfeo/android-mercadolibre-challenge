@@ -1,7 +1,6 @@
 package io.github.athorfeo.template.domain
 
 import io.github.athorfeo.template.data.repository.SearchItemsRepository
-import io.github.athorfeo.template.domain.GetItemInCacheUseCase
 import io.github.athorfeo.template.model.Result
 import io.github.athorfeo.template.network.response.ItemSearchItems
 import io.github.athorfeo.template.network.response.SalePriceResultSearchItems
@@ -19,20 +18,20 @@ import org.junit.Assert
 import org.junit.Test
 import org.junit.Before
 
-class GetItemInCacheUseCaseTest {
+class GetItemUseCaseTest {
     private val dispatcher = StandardTestDispatcher()
     private val scope = TestScope(dispatcher)
 
     @MockK
     private lateinit var searchItemsRepository: SearchItemsRepository
 
-    private lateinit var usecase: GetItemInCacheUseCase
+    private lateinit var usecase: GetItemUseCase
 
     @Before
     fun before() {
         MockKAnnotations.init(this, relaxUnitFun = true)
 
-        usecase = GetItemInCacheUseCase(searchItemsRepository)
+        usecase = GetItemUseCase(searchItemsRepository)
     }
 
     @After
@@ -43,7 +42,7 @@ class GetItemInCacheUseCaseTest {
     @Test
     fun loading_get_by_id_test() {
         scope.runTest {
-            coEvery { searchItemsRepository.getItemInCache(any()) } returns flow {
+            coEvery { searchItemsRepository.getItem(any()) } returns flow {
                 emit(Result.Loading)
             }
 
@@ -53,7 +52,7 @@ class GetItemInCacheUseCaseTest {
                 Assert.assertNull(it.item)
             }
 
-            coVerify { searchItemsRepository.getItemInCache(any()) }
+            coVerify { searchItemsRepository.getItem(any()) }
         }
     }
 
@@ -61,7 +60,7 @@ class GetItemInCacheUseCaseTest {
     fun error_get_by_id_test() {
         scope.runTest {
             val exception = Exception()
-            coEvery { searchItemsRepository.getItemInCache(any()) } returns flow {
+            coEvery { searchItemsRepository.getItem(any()) } returns flow {
                 emit(Result.Error(exception))
             }
 
@@ -71,7 +70,7 @@ class GetItemInCacheUseCaseTest {
                 Assert.assertNull(it.item)
             }
 
-            coVerify { searchItemsRepository.getItemInCache(any()) }
+            coVerify { searchItemsRepository.getItem(any()) }
         }
     }
 
@@ -88,7 +87,7 @@ class GetItemInCacheUseCaseTest {
                 SalePriceResultSearchItems("", 0.0)
                 , 0
             )
-            coEvery { searchItemsRepository.getItemInCache(any()) } returns flow {
+            coEvery { searchItemsRepository.getItem(any()) } returns flow {
                 emit(Result.Success(item))
             }
 
@@ -98,7 +97,7 @@ class GetItemInCacheUseCaseTest {
                 Assert.assertNotNull(it.item)
             }
 
-            coVerify { searchItemsRepository.getItemInCache(any()) }
+            coVerify { searchItemsRepository.getItem(any()) }
         }
     }
 }

@@ -155,7 +155,7 @@ class SearchItemsRepositoryTest {
             val resource = SearchedItemsResource(0, 0, items)
             coEvery { localItemsSearchesDataSource.getSearchedItems() } returns flow { emit(resource) }
 
-            repository.getItemInCache(item.id).collect {
+            repository.getItem(item.id).collect {
                 if(it is Result.Success) {
                     Assert.assertEquals(item, it.data)
                 }
@@ -174,7 +174,7 @@ class SearchItemsRepositoryTest {
             val resource = SearchedItemsResource(0, 0, items)
             coEvery { localItemsSearchesDataSource.getSearchedItems() } returns flow { emit(resource) }
 
-            repository.getItemInCache("").collect {
+            repository.getItem("").collect {
                 if(it is Result.Error) {
                     Assert.assertTrue(it.exception is AppException)
                 }
@@ -194,7 +194,7 @@ class SearchItemsRepositoryTest {
                 throw exception
             }
 
-            repository.getItemInCache("").collect {
+            repository.getItem("").collect {
                 if(it is Result.Error) {
                     Assert.assertEquals(exception, it.exception)
                 }

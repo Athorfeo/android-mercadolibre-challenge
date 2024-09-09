@@ -132,7 +132,7 @@ class ResultSearchViewModelTest {
         val exception = Exception()
         every { searchItemsRepository.searchItems(any(), any()) } returns flow { emit(Result.Error(exception)) }
 
-        viewModel.onNextPaging()
+        viewModel.onNextPaging(mockk())
         Assert.assertFalse(viewModel.uiLogicState.value.isLoading)
         Assert.assertNotNull(viewModel.uiLogicState.value.exception)
         Assert.assertEquals(0, viewModel.itemsPagingState.value.items.size)
@@ -173,7 +173,9 @@ class ResultSearchViewModelTest {
         every { calculateOffsetPaging.backPaging(any()) } returns 0
         every { searchItemsRepository.searchItems(any(), any()) } returns flow { emit(Result.Success(0)) }
 
-        viewModel.onBackPaging()
+        val onSuccess: () -> Unit = mockk()
+        every { onSuccess.invoke() } returns Unit
+        viewModel.onBackPaging(onSuccess)
 
         Assert.assertFalse(viewModel.uiLogicState.value.isLoading)
         Assert.assertNull(viewModel.uiLogicState.value.exception)
@@ -184,6 +186,7 @@ class ResultSearchViewModelTest {
             fetchSearchItems.getPaging()
             calculateOffsetPaging.backPaging(any())
             searchItemsRepository.searchItems(any(), any())
+            onSuccess.invoke()
         }
 
         jobItemsPagingState.cancel()
@@ -209,7 +212,9 @@ class ResultSearchViewModelTest {
         every { calculateOffsetPaging.nextPaging(any(), any()) } returns 0
         every { searchItemsRepository.searchItems(any(), any()) } returns flow { emit(Result.Success(0)) }
 
-        viewModel.onNextPaging()
+        val onSuccess: () -> Unit = mockk()
+        every { onSuccess.invoke() } returns Unit
+        viewModel.onNextPaging(onSuccess)
 
         Assert.assertFalse(viewModel.uiLogicState.value.isLoading)
         Assert.assertNull(viewModel.uiLogicState.value.exception)
@@ -220,6 +225,7 @@ class ResultSearchViewModelTest {
             fetchSearchItems.getPaging()
             calculateOffsetPaging.nextPaging(any(), any())
             searchItemsRepository.searchItems(any(), any())
+            onSuccess.invoke()
         }
 
         jobItemsPagingState.cancel()
@@ -243,7 +249,7 @@ class ResultSearchViewModelTest {
         val jobUiLogicState = launch(UnconfinedTestDispatcher()){ viewModel.uiLogicState.collect() }
         every { searchItemsRepository.searchItems(any(), any()) } returns flow { emit(Result.Loading) }
 
-        viewModel.searchItems(0)
+        viewModel.searchItems(0, mockk())
 
         Assert.assertTrue(viewModel.uiLogicState.value.isLoading)
         Assert.assertNull(viewModel.uiLogicState.value.exception)
@@ -278,7 +284,7 @@ class ResultSearchViewModelTest {
             emit(Result.Error(Exception()))
         }
 
-        viewModel.searchItems(0)
+        viewModel.searchItems(0, mockk())
 
         Assert.assertFalse(viewModel.uiLogicState.value.isLoading)
         Assert.assertNotNull(viewModel.uiLogicState.value.exception)
@@ -313,7 +319,9 @@ class ResultSearchViewModelTest {
             emit(Result.Success(0))
         }
 
-        viewModel.searchItems(0)
+        val onSuccess: () -> Unit = mockk()
+        every { onSuccess.invoke() } returns Unit
+        viewModel.searchItems(0, onSuccess)
 
         Assert.assertFalse(viewModel.uiLogicState.value.isLoading)
         Assert.assertNull(viewModel.uiLogicState.value.exception)
@@ -323,6 +331,7 @@ class ResultSearchViewModelTest {
             savedStateHandle.get<String>(Screen.QUERY_ARG)
             fetchSearchItems.getPaging()
             searchItemsRepository.searchItems(any(), any())
+            onSuccess.invoke()
         }
 
         jobItemsPagingState.cancel()
