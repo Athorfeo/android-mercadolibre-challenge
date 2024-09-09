@@ -10,30 +10,30 @@
 La arquitectura de la aplicacion es sigue los lineamientos descritos es [Android App Architecture](https://developer.android.com/topic/architecture), estructurado de la siguiente manera:
 
 - **data**: Carpeta destinada a los `Repository`, `DataSource` y `DataStore`.
-- di: Carpeta destinada a la inyeccion de dependencias.
-- domain: Carpeta destinada a los `UseCase`.
-- model: Carpeta que contiene los modelos y estados usados en las vistas.
-- navigation: Carpeta destinada a los archivos de navigacion.
-- network: Carpeta destinada al consumo de sevicios.
-- ui: Carpeta destinada a las vistas y `ViewModel`.
-- util: Carpeta destinada para los helper y utilizarios de la aplicacion.
-- MainActivity.kt: `Activity` principal de la aplicacion.
-- TemplateApp.kt: Clase `Application` del proyecto.
+- **di**: Carpeta destinada a la inyeccion de dependencias.
+- **domain**: Carpeta destinada a los `UseCase`.
+- **model**: Carpeta que contiene los modelos y estados usados en las vistas.
+- **navigation**: Carpeta destinada a los archivos de navigacion.
+- **network**: Carpeta destinada al consumo de sevicios.
+- **ui**: Carpeta destinada a las vistas y `ViewModel`.
+- **util**: Carpeta destinada para los helper y utilizarios de la aplicacion.
+- **MainActivity.kt**: `Activity` principal de la aplicacion.
+- **TemplateApp.kt**: Clase `Application` del proyecto.
 
 ## Vistas
 
 El proyecto cuenta con 3 vistas:
 
-- QuerySearchScreen: Vista destinada al campo de busqueda.
+- **QuerySearchScreen**: Vista destinada al campo de busqueda.
 
 ![QuerySearchScreen](/docs/query-search-screen.jpg)
 
-- ResultSearchScreen: Vista destinada a mostrar el resultado y paging de la busqueda.
+- **ResultSearchScreen**: Vista destinada a mostrar el resultado y paging de la busqueda.
 
 ![01 ResultSearchScreen](/docs/01-result-search-screen.jpg)
 ![02 ResultSearchScreen](/docs/02-result-search-screen.jpg)
 
-- DetailItemScreen: Vista destinada a mostrar el detalle del item seleccionado.
+- **DetailItemScreen**: Vista destinada a mostrar el detalle del item seleccionado.
 
 ![app-modules](/docs/detail-item-screen.jpg)
 
