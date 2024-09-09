@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">2024 Athorfeo</string>
+    <string name="title_result_search_screen">Search Results</string>
+    <string name="title_detail_item_screen">Item detail</string>
+    <string name="result_search">Search results for: </string>
+    <string name="item_available">available</string>
+    <string name="search_input_label">Write what you want to search</string>
+    <string name="athorfeo">Athorfeo 2024</string>
+    <string name="title_item">Name</string>
+    <string name="price_item">Price</string>
+    <string name="money_symbol">$</string>
+    <string name="quantity_available_item">Available</string>
+    <string name="open_browser_item">Open in browser</string>
+    <string name="loading">Loading, please wait a moment…</string>
+    <string name="no_items_found">There are no items to show.</string>
+
+    <string name="title_default_error_dialog">An error has occurred</string>
+    <string name="text_default_error_dialog">An error has occurred, please try again</string>
+    <string name="dismiss">Dismiss</string>
+
+    <string name="title_not_found_item_search_dialog">No items found</string>
+    <string name="text_not_found_item_search_dialog">No items found, please try again.</string>
+</resources>

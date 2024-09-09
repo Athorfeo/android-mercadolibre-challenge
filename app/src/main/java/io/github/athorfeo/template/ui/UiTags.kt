@@ -1,0 +1,7 @@
+package io.github.athorfeo.template.ui
+
+const val SEARCH_BUTTON_UI_TAG = "SEARCH_BUTTON_UI_TAG"
+const val SEARCH_INPUT_UI_TAG = "SEARCH_INPUT_UI_TAG"
+const val TITLE_DIALOG_UI_TAG = "TITLE_DIALOG_UI_TAG"
+const val TEXT_DIALOG_UI_TAG = "TEXT_DIALOG_UI_TAG"
+const val BUTTON_DIALOG_UI_TAG = "BUTTON_DIALOG_UI_TAG"
