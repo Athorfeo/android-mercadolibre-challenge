@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "2024-android-template"
+rootProject.name = "android-mercadolibre-challenge"
 include(":app")
